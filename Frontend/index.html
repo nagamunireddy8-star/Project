@@ -4,8 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f8fafc" />
-    <meta name="description" content="Find and book your next vehicle rental." />
-    <title>Vehicle Rentals</title>
+    <meta name="description" content="A fresh take on vehicle rentals. Find a ride that fits the everyday, the once-in-a-while, and everywhere in between." />
+    <title>Vehicle Rentals | Your Plans Deserve the Right Ride</title>
+    <script>
+      (() => {
+        let savedTheme = null
+        try {
+          savedTheme = window.localStorage.getItem('vehicle-rentals-theme')
+        } catch {
+          // Fall back to the operating system theme when browser storage is unavailable.
+        }
+
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const darkMode = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark)
+        document.documentElement.classList.toggle('dark', darkMode)
+        document.documentElement.style.colorScheme = darkMode ? 'dark' : 'light'
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', darkMode ? '#020617' : '#f8fafc')
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
