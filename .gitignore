@@ -8,3 +8,10 @@
 
 # Runtime logs
 *.log
+
+# Frontend dependencies and build output
+**/node_modules/
+**/dist/
+
+# IDE/build output
+**/bin/
