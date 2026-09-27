@@ -2,6 +2,7 @@ package com.example.vehiclerental.controller;
 
 import com.example.vehiclerental.dto.ApiResponse;
 import com.example.vehiclerental.dto.BookingRequest;
+import com.example.vehiclerental.dto.BookingResponse;
 import com.example.vehiclerental.entity.Booking;
 import com.example.vehiclerental.entity.User;
 import com.example.vehiclerental.repository.UserRepository;
@@ -25,7 +26,7 @@ public class BookingController {
     private final UserRepository userRepository;
 
     @PostMapping("/bookings")
-    @PreAuthorize("hasRole('CUSTOMER')")
+//    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse> createBooking(@Valid @RequestBody BookingRequest request) {
         Long userId = getCurrentUserId();
         Booking booking = bookingService.createBooking(userId, request);
@@ -36,7 +37,7 @@ public class BookingController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse> getMyBookings() {
         Long userId = getCurrentUserId();
-        List<Booking> bookings = bookingService.getMyBookings(userId);
+        List<BookingResponse> bookings = bookingService.getMyBookings(userId);
         return ResponseEntity.ok(ApiResponse.success("My bookings fetched successfully", bookings));
     }
 

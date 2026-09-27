@@ -1,6 +1,7 @@
 package com.example.vehiclerental.service;
 
 import com.example.vehiclerental.dto.BookingRequest;
+import com.example.vehiclerental.dto.BookingResponse;
 import com.example.vehiclerental.entity.Booking;
 import com.example.vehiclerental.entity.User;
 import com.example.vehiclerental.entity.Vehicle;
@@ -9,6 +10,7 @@ import com.example.vehiclerental.repository.UserRepository;
 import com.example.vehiclerental.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -57,10 +59,13 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    public List<Booking> getMyBookings(Long userId) {
+    @Transactional(readOnly = true)
+    public List<BookingResponse> getMyBookings(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return bookingRepository.findByUserOrderByBookingDateDesc(user);
+        return bookingRepository.findByUserOrderByBookingDateDesc(user).stream()
+            .map(BookingResponse::from)
+            .toList();
     }
 
     public Booking getBookingById(Long bookingId) {
